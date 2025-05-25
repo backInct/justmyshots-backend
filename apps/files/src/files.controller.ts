@@ -1,12 +1,12 @@
-import { Controller, Get } from '@nestjs/common';
-import { FilesService } from './files.service';
+import { Controller } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller()
 export class FilesController {
-  constructor(private readonly filesService: FilesService) {}
+  constructor() {}
 
-  @Get()
-  getHello(): string {
-    return this.filesService.getHello();
+  @MessagePattern('get_data')
+  getFiles(@Payload() data: unknown) {
+    return { message: 'Привет, я Files!!', received: data };
   }
 }
