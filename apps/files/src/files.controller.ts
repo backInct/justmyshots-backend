@@ -7,11 +7,6 @@ export class FilesController {
 
   @MessagePattern('get_data')
   getFiles(@Payload() data: unknown) {
-    console.log(data);
-    try {
-      return { message: 'Привет, я Files!!', received: data };
-    } catch (e: unknown) {
-      console.log(String(e));
-    }
+    return { message: 'Привет, я Files!!', received: data };
   }
 }

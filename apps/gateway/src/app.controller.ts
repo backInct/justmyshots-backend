@@ -11,7 +11,7 @@ export class AppController {
   @Get('get-data')
   async getData(): Promise<unknown> {
     try {
-      return firstValueFrom(
+      return await firstValueFrom(
         this.client.send('get_data', { text: 'Привет, Микросервис Files!' }),
       );
     } catch (error: unknown) {
