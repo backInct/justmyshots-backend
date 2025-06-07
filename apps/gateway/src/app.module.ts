@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import * as process from 'node:process';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { AppController } from './modules/app/controller/app.controller';
+import { AppService } from './modules/app/service/app.service';
 
 // Клиент, который отправляет запросы!
 @Module({
