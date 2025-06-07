@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import * as cookieParser from 'cookie-parser';
+import { swaggerConfig } from '../common/config/swagger.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,6 +14,8 @@ async function bootstrap() {
   app.use(cookieParser());
 
   app.setGlobalPrefix('api/v1');
+
+  swaggerConfig(app);
 
   await app.listen(port, () => {
     console.log('App starting listen port: ', port);
