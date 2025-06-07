@@ -23,7 +23,12 @@
     "start:dev:gateway": "nest start gateway --watch",
     "build:files": "nest build files",
     "start:files": "node dist/apps/files/main",
-    "start:dev:files": "nest start files --watch"
+    "start:dev:files": "nest start files --watch",
+    "prisma:format:model": "yarn run prisma format --schema=apps/gateway/prisma/schema.prisma",
+    "prisma:migrate:dev": "yarn run prisma migrate dev --schema=apps/gateway/prisma/schema.prisma --name new_migrant",
+    "prisma:generate": "prisma generate --schema=apps/gateway/prisma/schema.prisma",
+    "prisma:studio": "yarn run prisma studio --schema=apps/gateway/prisma/schema.prisma",
+    "prisma:actual": "yarn run prisma db pull --schema=apps/gateway/prisma/schema.prisma"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",

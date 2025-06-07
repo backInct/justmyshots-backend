@@ -15,12 +15,12 @@ CREATE TABLE "users"
 -- CreateTable
 CREATE TABLE "sessions"
 (
-    "deviceId"       TEXT         NOT NULL,
-    "deviceName"     TEXT         NOT NULL,
-    "ip"             TEXT         NOT NULL,
+    "deviceId"   TEXT         NOT NULL,
+    "deviceName" TEXT         NOT NULL,
+    "ip"         TEXT         NOT NULL,
     "lastActiveDate" TIMESTAMP(3) NOT NULL,
-    "expireAt"       TIMESTAMP(3) NOT NULL,
-    "userId"         TEXT         NOT NULL,
+    "expireAt"   TIMESTAMP(3) NOT NULL,
+    "userId"     TEXT         NOT NULL,
 
     CONSTRAINT "sessions_pkey" PRIMARY KEY ("deviceId")
 );
