@@ -12,6 +12,7 @@ export function swaggerSetup(app: INestApplication) {
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
+
   SwaggerModule.setup('api/v1', app, documentFactory, {
     customSiteTitle: 'JustMyShots Swagger',
   });
