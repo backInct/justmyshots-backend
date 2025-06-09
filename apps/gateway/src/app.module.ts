@@ -4,6 +4,8 @@ import * as process from 'node:process';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AppController } from './modules/app/controller/app.controller';
 import { AppService } from './modules/app/service/app.service';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { throttlerConfig } from '../common/config/throttler.config';
 
 // Клиент, который отправляет запросы!
 @Module({
@@ -22,6 +24,7 @@ import { AppService } from './modules/app/service/app.service';
         },
       },
     ]),
+    ThrottlerModule.forRoot([throttlerConfig]),
   ],
   controllers: [AppController],
   providers: [AppService],
