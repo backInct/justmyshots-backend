@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ThrottlerModule } from '@nestjs/throttler';
-import { throttlerConfig } from '../common/config/throttler.config';
 import { AppController } from './controller/app.controller';
 import { AppService } from './service/app.service';
-import { CoreModule } from '../common/core.module';
-import { EnvModule } from '../envModule';
 import { UsersAccountsModule } from '../modules/user-accounts/users.accounts.module';
-import { PrismaService } from '../modules/prisma/prisma.service';
+import { PrismaService } from '../modules/prisma/service/prisma.service';
 import { EmailModule } from '../modules/email/email.module';
+import { EnvModule } from '../common/modules/env.module';
+import { CoreModule } from '../common/modules/core.module';
+import { throttlerConfig } from '../common/configs/throttler.config';
 
 @Module({
   imports: [

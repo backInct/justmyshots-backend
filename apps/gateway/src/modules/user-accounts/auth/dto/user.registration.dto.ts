@@ -1,7 +1,7 @@
 import { IsEmail, Length, Matches, MaxLength } from 'class-validator';
-import { Trim } from '../../../../common/validation/decorators/transform/trim';
-import { IsValidUsername } from '../../../../common/validation/decorators/transform/valid.username';
 import { ApiProperty } from '@nestjs/swagger';
+import { TrimDecorator } from 'apps/gateway/src/common/decorators/trim.decorator';
+import { IsValidUsername } from '../../../../common/decorators/valid.username.decorator';
 
 export class UserRegistrationDTO {
   @ApiProperty({
@@ -9,7 +9,7 @@ export class UserRegistrationDTO {
     description: 'Email пользователя',
     maxLength: 254,
   })
-  @Trim()
+  @TrimDecorator()
   @IsEmail()
   @MaxLength(254, {
     message: 'Данный email слишком длинный!',
@@ -22,7 +22,7 @@ export class UserRegistrationDTO {
     minLength: 6,
     maxLength: 30,
   })
-  @Trim()
+  @TrimDecorator()
   @Length(6, 30)
   @IsValidUsername({ message: 'Неверный формат username' })
   username: string;
@@ -34,7 +34,7 @@ export class UserRegistrationDTO {
     minLength: 6,
     maxLength: 20,
   })
-  @Trim()
+  @TrimDecorator()
   @Length(6, 20)
   @Matches(
     /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]).{6,20}$/,

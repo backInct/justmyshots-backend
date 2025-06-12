@@ -2,9 +2,9 @@ import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UserRegistrationDTO } from '../../dto/user.registration.dto';
 import { BadRequestException } from '@nestjs/common';
 import { UserUniqueCommand } from './unique-user.usecase';
-import { CommonCreateUserCommand } from './create-user.command';
+import { CommonCreateUserCommand } from './create-user.usecase';
 import { EmailService } from '../../../../email/service/email.service';
-import { getCreateUserRTO } from '../../interfaces/get.create.user.rto';
+import { getCreateUserRTO } from '../../rto/get.create.user.rto';
 
 export class UserRegistrationCommand {
   constructor(public readonly dto: UserRegistrationDTO) {}

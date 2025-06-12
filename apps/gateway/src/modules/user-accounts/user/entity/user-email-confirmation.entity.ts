@@ -1,7 +1,7 @@
-import { EmailConfirmationUpdateDTO } from '../dto/email-confirmation.update.dto';
-import { EmailConfirmationCreateDTO } from '../dto/email-confirmation.create.dto';
 import { IUserEmailConfirmationEntityProps } from '../interfaces/email-confirmation.props';
-import { UserEmailConfirmation } from '../../../../generated';
+import { UserEmailConfirmation } from '../../../../../generated';
+import { EmailConfirmationCreateDTO } from '../dto/email-confirmation/email-confirmation.create.dto';
+import { EmailConfirmationUpdateDTO } from '../dto/email-confirmation/email-confirmation.update.dto';
 
 export class UserEmailConfirmationEntity {
   public code: string;

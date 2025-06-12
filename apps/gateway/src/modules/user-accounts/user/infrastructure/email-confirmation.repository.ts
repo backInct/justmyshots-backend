@@ -1,6 +1,6 @@
-import { PrismaService } from '../../../prisma/prisma.service';
+import { PrismaService } from '../../../prisma/service/prisma.service';
 import { Injectable } from '@nestjs/common';
-import { UserEmailConfirmationEntity } from '../../../email/entity/user-email-confirmation.entity';
+import { UserEmailConfirmationEntity } from '../entity/user-email-confirmation.entity';
 
 @Injectable()
 export class UserEmailConfirmationRepository {

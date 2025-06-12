@@ -1,11 +1,11 @@
-import { AppConfig } from './app.config';
+import { AppConfig } from '../configs/app.config';
 import { INestApplication } from '@nestjs/common';
-import { pipesSetup } from './pipes.config';
-import { exceptionFilterSetup } from './exception-filter.config';
-import { addVersionSetup } from './version.config';
-import { cookieParserSetup } from './cookie-parser.config';
-import { corsSetup } from './cors.config';
-import { swaggerSetup } from './swagger.config';
+import { pipesSetup } from './pipes.setup';
+import { exceptionFilterSetup } from './exception-filter.setup';
+import { addVersionSetup } from './version.setup';
+import { cookieParserSetup } from './cookie-parser.setup';
+import { corsSetup } from './cors.setup';
+import { swaggerSetup } from './swagger.setup';
 
 export function fullConfigApp(
   app: INestApplication,

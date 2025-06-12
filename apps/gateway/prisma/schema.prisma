@@ -22,8 +22,6 @@ model User {
   @@map("users")
 }
 
-// здесь было userId unique удалил, потому что у одного юзера может
-// быть много сессий
 model Session {
   id       String @id @default(uuid(4))
   deviceId String @default(uuid(4))

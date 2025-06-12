@@ -1,13 +1,13 @@
 import { UserCreateDTO } from '../../../user/dto/create.user.dto';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { BcryptService } from '../../services/bcrypt.service';
-import { installGenerateEmailConfirmData } from '../../../../email/utils/email-confirmation.auto.data';
+import { installGenerateEmailConfirmData } from '../../../user/utils/install.generate.email-confirmation.utils';
 import { UserRepository } from '../../../user/infrastructure/user.repository';
 import { UserEntity } from '../../../user/entity/user.entity';
-import { UserEmailConfirmationEntity } from '../../../../email/entity/user-email-confirmation.entity';
+import { UserEmailConfirmationEntity } from '../../../user/entity/user-email-confirmation.entity';
 import { UserEmailConfirmationRepository } from '../../../user/infrastructure/email-confirmation.repository';
-import { EmailConfirmationCreateDTO } from '../../../../email/dto/email-confirmation.create.dto';
-import { getCreateUserRTO } from '../../interfaces/get.create.user.rto';
+import { getCreateUserRTO } from '../../rto/get.create.user.rto';
+import { EmailConfirmationCreateDTO } from '../../../user/dto/email-confirmation/email-confirmation.create.dto';
 
 export class CommonCreateUserCommand {
   constructor(public readonly payload: UserCreateDTO) {}

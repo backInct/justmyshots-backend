@@ -1,8 +1,8 @@
-import { AppConfig } from '../../../common/config/app.config';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
-import { TemplateName } from '../enum/template.enum';
-import { SendEmailDTO } from '../interfaces/email-send.interfaces';
+import { SendEmailDTO } from '../../user-accounts/user/dto/email-send.dto';
+import { TemplateName } from '../../user-accounts/user/enum/template.enum';
+import { AppConfig } from '../../../common/configs/app.config';
 
 @Injectable()
 export class EmailService {
@@ -32,8 +32,8 @@ export class EmailService {
         template: dto.templateName,
         context: dto.context,
       })
-      .then((success) => {
-        console.log(success.messageId);
+      .then((success: unknown) => {
+        console.log(success);
       })
       .catch((err: unknown) => {
         console.log('ошибка при отправке сообщения: ' + String(err));

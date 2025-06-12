@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { CoreModule } from '../../common/core.module';
-import { AppConfig } from '../../common/config/app.config';
 import { EmailService } from './service/email.service';
+import { CoreModule } from '../../common/modules/core.module';
+import { AppConfig } from '../../common/configs/app.config';
 import { TEMPLATES_DIR } from '../../common/constants/templates.dir';
 
 const services = [EmailService];

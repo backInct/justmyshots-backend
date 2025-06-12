@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { add } from 'date-fns';
-import { EmailConfirmationCreateDTO } from '../dto/email-confirmation.create.dto';
+import { EmailConfirmationCreateDTO } from '../dto/email-confirmation/email-confirmation.create.dto';
 
 export function installGenerateEmailConfirmData(): EmailConfirmationCreateDTO {
   const code: string = randomUUID();

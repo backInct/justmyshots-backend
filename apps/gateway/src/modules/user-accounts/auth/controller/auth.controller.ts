@@ -7,13 +7,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { SETTINGS } from '../../../../common/controller.path.settings';
 import { CommandBus } from '@nestjs/cqrs';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { UserRegistrationCommand } from '../application/use-cases/registration-user.usecase';
 import { UserRegistrationDTO } from '../dto/user.registration.dto';
 import { UserQueryRepository } from '../../user/infrastructure/query/user.query.repository';
-import { GetUserDataRTO } from '../interfaces/get.user.data';
+import { GetUserDataRTO } from '../rto/get.user.rto';
+import { SETTINGS } from '../../../../common/settings/router.path.settings';
 
 @ApiTags('Authorization')
 @Controller(SETTINGS.PATH.AUTH)
@@ -28,12 +28,12 @@ export class AuthController {
   @Post('registration')
   @ApiBody({ type: UserRegistrationDTO })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'Пользователь успешно зарегистрирован',
     type: GetUserDataRTO,
   })
   @ApiResponse({
-    status: 400,
+    status: HttpStatus.BAD_REQUEST,
     description: 'Ошибка валидации: неверные данные',
   })
   async registration(
