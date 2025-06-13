@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { FilesModule } from './files/files.module';
+import { FilesModule } from './files.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap(): Promise<void> {
