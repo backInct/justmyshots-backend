@@ -32,7 +32,7 @@ export class UserEmailConfirmationRepository {
     return UserEmailConfirmationEntity.fromPrisma(data);
   }
 
-  async findCodeToEmailRegistration(
+  async findByEmailConfirmationCode(
     code: string,
   ): Promise<UserEmailConfirmationEntity | null> {
     const data = await this.prismaService.userEmailConfirmation.findUnique({
@@ -44,5 +44,19 @@ export class UserEmailConfirmationRepository {
     }
 
     return UserEmailConfirmationEntity.fromPrisma(data);
+  }
+
+  async updateEmailConfirmation(
+    entity: UserEmailConfirmationEntity,
+  ): Promise<void> {
+    await this.prismaService.userEmailConfirmation.update({
+      where: {
+        id: entity.getId(),
+      },
+      data: {
+        verification: entity.verification,
+        expiresAt: entity.expiresAt,
+      },
+    });
   }
 }

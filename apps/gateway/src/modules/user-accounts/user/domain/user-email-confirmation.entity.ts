@@ -1,27 +1,31 @@
-import { UserEmailConfirmation } from '../../../../../prisma/generated';
 import { EmailConfirmationCreateDomainDTO } from './dto/user-email-confirmation.dto';
 
-interface IUserEmailConfirmationEntityProps {
-  id?: string;
-  verification?: boolean;
-  createdAt?: Date;
+interface IUserEmailConfirmationEntityCreateProps {
   code: string;
   expiresAt: Date;
   userId: string;
 }
 
+interface IUserEmailConfirmationEntityDBProps
+  extends IUserEmailConfirmationEntityCreateProps {
+  id: string;
+  createdAt: Date;
+  verification: boolean;
+}
+
 export class UserEmailConfirmationEntity {
+  public readonly id?: string;
+  public readonly createdAt?: Date;
   public code: string;
   public expiresAt: Date;
-  public verification: boolean = false;
-  public createdAt: Date;
-  public id: string;
+  public verification: boolean;
   public userId: string;
 
-  private constructor(data: IUserEmailConfirmationEntityProps) {
-    this.code = data.code;
-    this.expiresAt = data.expiresAt;
-    this.userId = data.userId;
+  private constructor(props: IUserEmailConfirmationEntityCreateProps) {
+    this.code = props.code;
+    this.expiresAt = props.expiresAt;
+    this.userId = props.userId;
+    this.verification = false;
   }
 
   public static buildInstance(
@@ -36,16 +40,20 @@ export class UserEmailConfirmationEntity {
   }
 
   public static fromPrisma(
-    data: UserEmailConfirmation,
+    data: IUserEmailConfirmationEntityDBProps,
   ): UserEmailConfirmationEntity {
-    return new UserEmailConfirmationEntity({
-      id: data.id,
+    const entity = new UserEmailConfirmationEntity({
       code: data.code,
       expiresAt: data.expiresAt,
-      verification: data.verification,
       userId: data.userId,
-      createdAt: data.createdAt,
     });
+    Object.defineProperty(entity, 'id', { value: data.id, writable: false });
+    Object.defineProperty(entity, 'createdAt', {
+      value: data.createdAt,
+      writable: false,
+    });
+    entity.verification = data.verification;
+    return entity;
   }
 
   public toPrisma() {
@@ -63,5 +71,27 @@ export class UserEmailConfirmationEntity {
 
   public getUserId(): string {
     return this.userId;
+  }
+
+  public getId(): string {
+    if (!this.id) {
+      throw new Error('ID is not set');
+    }
+    return this.id;
+  }
+
+  public canConfirmEmail(): boolean {
+    return !this.verification && this.expiresAt > new Date();
+  }
+
+  public confirmEmail(confirmationCode: string): void {
+    if (this.code !== confirmationCode) {
+      throw new Error('invalid confirmation code');
+    }
+    if (!this.canConfirmEmail()) {
+      throw new Error('Email was already confirmed or expired date');
+    }
+    this.verification = true;
+    this.expiresAt = new Date();
   }
 }
