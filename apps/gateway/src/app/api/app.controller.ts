@@ -8,15 +8,10 @@ export class AppController {
     @Inject('TCP_SERVICE_FILES') private readonly client: ClientProxy,
   ) {}
 
-  @Get('get-data')
+  @Get('test')
   async getData(): Promise<unknown> {
-    try {
-      return await firstValueFrom(
-        this.client.send('get_data', { text: 'Привет, Микросервис Files!' }),
-      );
-    } catch (error: unknown) {
-      console.log('Error:', String(error));
-      throw error;
-    }
+    return await firstValueFrom(
+      this.client.send('get_data', { text: 'Привет, Микросервис Files!' }),
+    );
   }
 }

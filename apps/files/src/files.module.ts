@@ -1,6 +1,6 @@
-import { FilesService } from './files.service';
+import { FilesService } from './service/files.service';
 import { Module } from '@nestjs/common';
-import { FilesController } from './files.controller';
+import { FilesController } from './api/files.controller';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({

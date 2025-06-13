@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { FilesModule } from './files.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     FilesModule,
     {

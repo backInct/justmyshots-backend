@@ -1,21 +1,20 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { ConfigService } from '@nestjs/config';
-import * as cookieParser from 'cookie-parser';
+import { AppModule } from './app/app.module';
+import { AppConfig } from './common/configs/app.config';
+import { fullConfigApp } from './common/setup/full.config.setup';
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
+  const appContext = await NestFactory.create(AppModule);
+
+  const coreConfig: AppConfig = appContext.get<AppConfig>(AppConfig);
+
   const app = await NestFactory.create(AppModule);
 
-  const configService = app.get(ConfigService);
+  fullConfigApp(app, coreConfig);
 
-  const port = configService.getOrThrow<number>('PORT');
-
-  app.use(cookieParser());
-
-  app.setGlobalPrefix('api/v1');
-
-  await app.listen(port, () => {
-    console.log('App starting listen port: ', port);
+  await app.listen(coreConfig.port, () => {
+    console.log('Сервер запущен на порту: ' + coreConfig.port);
+    console.log('ENV:', coreConfig.env);
   });
 }
 

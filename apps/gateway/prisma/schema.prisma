@@ -1,12 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  output = "./generated"
 }
 
 datasource db {
@@ -15,26 +9,40 @@ datasource db {
 }
 
 model User {
-  id           String    @id @default(uuid(4))
-  email        String    @unique
-  username     String    @unique
-  passwordHash String
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  deletedAt    DateTime?
-  sessions     Session[]
+  id                String                @id @default(uuid(4))
+  email             String                @unique
+  username          String                @unique
+  passwordHash      String
+  createdAt         DateTime              @db.Timestamptz() @default(now())
+  updatedAt         DateTime              @updatedAt
+  deletedAt         DateTime?
+  sessions          Session[]
+  emailConfirmation UserEmailConfirmation?
 
   @@map("users")
 }
 
 model Session {
-  deviceId       String   @id @default(uuid(4))
+  id       String @id @default(uuid(4))
+  deviceId String @default(uuid(4))
   deviceName     String
   ip             String
   lastActiveDate DateTime @updatedAt
   expireAt       DateTime
-  userId         String   @unique
-  user           User     @relation(fields: [userId], references: [id])
+  userId   String
+  user     User   @relation(fields: [userId], references: [id])
 
   @@map("sessions")
+}
+
+model UserEmailConfirmation {
+  id           String   @id @default(uuid(4))
+  expiresAt    DateTime
+  code         String   @unique
+  verification Boolean  @default(false)
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id])
+  createdAt    DateTime @default(now())
+
+  @@map("user-email-confirmation")
 }
