@@ -25,7 +25,7 @@
     "start:files": "node dist/apps/files/main",
     "start:dev:files": "nest start files --watch",
     "prisma:format:model": "yarn run prisma format --schema=apps/gateway/prisma/schema.prisma",
-    "prisma:migrate:dev": "yarn run prisma migrate dev --schema=apps/gateway/prisma/schema.prisma --name create-table-user-session-user-email-confirm",
+    "prisma:migrate:dev": "yarn run prisma migrate dev --schema=apps/gateway/prisma/schema.prisma --name",
     "prisma:generate": "prisma generate --schema=apps/gateway/prisma/schema.prisma",
     "prisma:studio": "yarn run prisma studio --schema=apps/gateway/prisma/schema.prisma",
     "prisma:actual": "yarn run prisma db pull --schema=apps/gateway/prisma/schema.prisma",
