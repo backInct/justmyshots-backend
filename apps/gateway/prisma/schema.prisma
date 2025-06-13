@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+  output = "./generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URI")
+}
+
+model User {
+  id                String                @id @default(uuid(4))
+  email             String                @unique
+  username          String                @unique
+  passwordHash      String
+  createdAt         DateTime              @db.Timestamptz() @default(now())
+  updatedAt         DateTime              @updatedAt
+  deletedAt         DateTime?
+  sessions          Session[]
+  emailConfirmation UserEmailConfirmation?
+
+  @@map("users")
+}
+
+model Session {
+  id       String @id @default(uuid(4))
+  deviceId String @default(uuid(4))
+  deviceName     String
+  ip             String
+  lastActiveDate DateTime @updatedAt
+  expireAt       DateTime
+  userId   String
+  user     User   @relation(fields: [userId], references: [id])
+
+  @@map("sessions")
+}
+
+model UserEmailConfirmation {
+  id           String   @id @default(uuid(4))
+  expiresAt    DateTime
+  code         String   @unique
+  verification Boolean  @default(false)
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id])
+  createdAt    DateTime @default(now())
+
+  @@map("user-email-confirmation")
+}
