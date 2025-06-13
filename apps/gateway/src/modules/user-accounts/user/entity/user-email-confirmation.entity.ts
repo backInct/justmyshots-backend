@@ -1,7 +1,7 @@
 import { IUserEmailConfirmationEntityProps } from '../interfaces/email-confirmation.props';
-import { UserEmailConfirmation } from '../../../../../generated';
 import { EmailConfirmationCreateDTO } from '../dto/email-confirmation/email-confirmation.create.dto';
 import { EmailConfirmationUpdateDTO } from '../dto/email-confirmation/email-confirmation.update.dto';
+import { UserEmailConfirmation } from '../../../../../prisma/generated';
 
 export class UserEmailConfirmationEntity {
   public code: string;
@@ -27,7 +27,6 @@ export class UserEmailConfirmationEntity {
     });
   }
 
-  // Создать из данных Prisma
   public static fromPrisma(
     data: UserEmailConfirmation,
   ): UserEmailConfirmationEntity {
@@ -41,18 +40,14 @@ export class UserEmailConfirmationEntity {
     });
   }
 
-  // Преобразовать в plain объект для prisma.userEmailConfirmation.create/update
   public toPrisma() {
     return {
-      id: this.id,
       code: this.code,
       expiresAt: this.expiresAt,
       verification: this.verification,
       userId: this.userId,
     };
   }
-
-  // Методы для обновления кода и статуса подтверждения
 
   public updateCodeAndVerification(code: string, verification: boolean): void {
     this.code = code;
@@ -65,7 +60,6 @@ export class UserEmailConfirmationEntity {
     this.verification = dto.verification;
   }
 
-  // Геттер userId
   public getUserId(): string {
     return this.userId;
   }

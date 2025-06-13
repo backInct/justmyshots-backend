@@ -1,7 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-export function swaggerSetup(app: INestApplication) {
+export function swaggerSetup(app: INestApplication): void {
   const config = new DocumentBuilder()
     .setTitle('Just-My-Shots')
     .setDescription('Стажировочный проект')

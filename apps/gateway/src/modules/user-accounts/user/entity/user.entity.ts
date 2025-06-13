@@ -1,15 +1,6 @@
 import { UserCreateDTO } from '../dto/create.user.dto';
-import { Prisma, User } from '../../../../../generated';
-
-interface IUserEntityProps {
-  email: string;
-  username: string;
-  passwordHash: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  id?: string;
-  deletedAt?: Date | null;
-}
+import { Prisma, User } from '../../../../../prisma/generated';
+import { IUserEntityProps } from '../interfaces/user.props';
 
 export class UserEntity {
   public email: string;
@@ -52,12 +43,15 @@ export class UserEntity {
     };
   }
 
-  public markDeleted() {
+  public markDeleted(): void {
     if (this.deletedAt) throw new Error('User already deleted');
     this.deletedAt = new Date();
   }
 
-  public getId(): string | undefined {
+  public getId(): string {
+    if (!this.id) {
+      throw new Error('User id is not set');
+    }
     return this.id;
   }
 
@@ -65,11 +59,11 @@ export class UserEntity {
     return this.email;
   }
 
-  public getDeletedAt() {
-    return this.deletedAt;
+  public getDeletedAt(): Date | null {
+    return this.deletedAt ?? null;
   }
 
-  public installPassword(hash: string) {
+  public installPassword(hash: string): void {
     this.passwordHash = hash;
   }
 }

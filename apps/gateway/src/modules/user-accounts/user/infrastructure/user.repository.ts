@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UserEntity } from '../entity/user.entity';
 import { PrismaService } from '../../../prisma/service/prisma.service';
 
@@ -20,27 +20,12 @@ export class UserRepository {
     user.markDeleted();
 
     const updated = await this.prisma.user.update({
-      where: { id: user.getId()! },
+      where: { id: user.getId() },
       data: {
-        deletedAt: user.getDeletedAt(), // или user.getDeletedAt(), если есть геттер
+        deletedAt: user.getDeletedAt(),
       },
     });
 
     return updated.id;
-  }
-
-  async findUserById(userId: string): Promise<UserEntity> {
-    const user = await this.prisma.user.findFirst({
-      where: {
-        id: userId,
-        deletedAt: null,
-      },
-    });
-
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
-    return UserEntity.fromPrisma(user);
   }
 }
