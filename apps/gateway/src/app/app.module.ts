@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ThrottlerModule } from '@nestjs/throttler';
-import { AppController } from './controller/app.controller';
+import { AppController } from './api/app.controller';
 import { AppService } from './service/app.service';
 import { UsersAccountsModule } from '../modules/user-accounts/users.accounts.module';
 import { PrismaService } from '../modules/prisma/service/prisma.service';

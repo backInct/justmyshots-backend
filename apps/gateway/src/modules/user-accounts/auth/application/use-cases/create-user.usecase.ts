@@ -1,6 +1,6 @@
 import { UserCreateDTO } from '../../../user/dto/create.user.dto';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { BcryptService } from '../../services/bcrypt.service';
+import { BcryptService } from '../../service/bcrypt.service';
 import { installGenerateEmailConfirmData } from '../../../user/utils/install.generate.email-confirmation.utils';
 import { UserRepository } from '../../../user/infrastructure/user.repository';
 import { UserEntity } from '../../../user/entity/user.entity';
