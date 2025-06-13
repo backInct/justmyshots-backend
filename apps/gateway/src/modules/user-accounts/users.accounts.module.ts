@@ -11,6 +11,7 @@ import { RegistrationUserUseCase } from './auth/application/use-cases/registrati
 import { CommonCreateUserUseCase } from './auth/application/use-cases/create-user.usecase';
 import { UniqueUserUseCase } from './auth/application/use-cases/unique-user.usecase';
 import { EmailModule } from '../email/email.module';
+import { RegistrationConfirmationUserUseCase } from './auth/application/use-cases/registration-confirmation-user.usecase';
 
 const repositories = [
   UserEmailConfirmationRepository,
@@ -21,6 +22,7 @@ const cases = [
   RegistrationUserUseCase,
   CommonCreateUserUseCase,
   UniqueUserUseCase,
+  RegistrationConfirmationUserUseCase,
 ];
 const services = [PrismaService, BcryptService];
 

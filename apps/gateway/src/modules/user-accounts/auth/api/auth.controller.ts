@@ -14,6 +14,8 @@ import { RegistrationUserInputDTO } from './input-dto/registration-user.input-dt
 import { UserQueryRepository } from '../../user/infrastructure/query/user.query.repository';
 import { RegistrationUserOutputDto } from './output-dto/registration-user.output-dto';
 import { SETTINGS } from '../../../../common/settings/router.path.settings';
+import { RegistrationConfirmationUserInputDto } from './input-dto/registration-confirmation-user.input-dto';
+import { RegistrationConfirmationUserCommand } from '../application/use-cases/registration-confirmation-user.usecase';
 
 @ApiTags('Authorization')
 @Controller(SETTINGS.PATH.AUTH)
@@ -44,5 +46,24 @@ export class AuthController {
         new UserRegistrationCommand(dto),
       );
     return this.userQueryRepository.findUserById(userId);
+  }
+
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(ThrottlerGuard)
+  @Post('registration-confirmation')
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+    description: 'Пользователь подтвердил регистрацию',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Ошибка валидации: неверные данные',
+  })
+  async registrationConfirmation(
+    @Body() dto: RegistrationConfirmationUserInputDto,
+  ): Promise<void> {
+    await this.commandBus.execute<RegistrationConfirmationUserCommand>(
+      new RegistrationConfirmationUserCommand(dto),
+    );
   }
 }
