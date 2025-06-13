@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AuthController } from './auth/controller/auth.controller';
+import { AuthController } from './auth/api/auth.controller';
 import { UserController } from './user/api/user.controller';
 import { CqrsModule } from '@nestjs/cqrs';
 import { UserQueryRepository } from './user/infrastructure/query/user.query.repository';
