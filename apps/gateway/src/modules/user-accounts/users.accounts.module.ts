@@ -5,7 +5,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { UserQueryRepository } from './user/infrastructure/query/user.query.repository';
 import { UserRepository } from './user/infrastructure/user.repository';
 import { PrismaService } from '../prisma/service/prisma.service';
-import { BcryptService } from './auth/service/bcrypt.service';
+import { BcryptService } from './auth/application/service/bcrypt.service';
 import { UserEmailConfirmationRepository } from './user/infrastructure/email-confirmation.repository';
 import { RegistrationUserUseCase } from './auth/application/use-cases/registration-user.usecase';
 import { CommonCreateUserUseCase } from './auth/application/use-cases/create-user.usecase';

@@ -8,17 +8,22 @@ import { AppConfigDTO } from '../dto/app.config.dto';
 export class AppConfig {
   public port: number;
   public env: string;
-  public adminEmail: string;
-  public adminEmailPassword: string;
+  public emailUser: string;
+  public emailPassword: string;
+  public emailHost: string;
+  public emailPort: number;
   public globalPrefix: string;
   public isSwaggerEnabled: boolean;
+  public postgresURI: string;
 
   constructor(private configService: ConfigService) {
     const rawConfig = {
       port: this.configService.get('PORT'),
       env: this.configService.get('NODE_ENV'),
-      adminEmail: this.configService.get('ADMIN_EMAIL'),
-      adminEmailPassword: this.configService.get('ADMIN_EMAIL_PASSWORD'),
+      emailUser: this.configService.get('EMAIL_USER'),
+      emailPassword: this.configService.get('EMAIL_PASSWORD'),
+      emailHost: this.configService.get('EMAIL_HOST'),
+      emailPort: this.configService.get('EMAIL_PORT'),
       postgresURI: this.configService.get('POSTGRES_URI'),
       isSwaggerEnabled: this.configService.get('IS_SWAGGER_ENABLED'),
       globalPrefix: this.configService.get('GLOBAL_PREFIX'),

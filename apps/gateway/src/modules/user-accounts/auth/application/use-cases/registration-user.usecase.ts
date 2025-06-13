@@ -1,13 +1,13 @@
 import { CommandBus, CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { UserRegistrationDTO } from '../../dto/user.registration.dto';
+import { RegistrationUserInputDTO } from '../../api/input-dto/registration-user.input-dto';
 import { BadRequestException } from '@nestjs/common';
 import { UserUniqueCommand } from './unique-user.usecase';
 import { CommonCreateUserCommand } from './create-user.usecase';
 import { EmailService } from '../../../../email/service/email.service';
-import { getCreateUserRTO } from '../../rto/get.create.user.rto';
+import { CreateUserOutputDTO } from '../../api/output-dto/create-user.output-dto';
 
 export class UserRegistrationCommand {
-  constructor(public readonly dto: UserRegistrationDTO) {}
+  constructor(public readonly dto: RegistrationUserInputDTO) {}
 }
 
 @CommandHandler(UserRegistrationCommand)
@@ -31,15 +31,16 @@ export class RegistrationUserUseCase
       throw new BadRequestException([
         {
           field: errorField,
-          message: `${errorField} должен быть уникальным!`,
+          message: `${errorField} должен быть уникальным.`,
         },
       ]);
     }
 
-    const { email, confirmationCode, userId }: getCreateUserRTO =
-      await this.commandBus.execute<CommonCreateUserCommand, getCreateUserRTO>(
-        new CommonCreateUserCommand(command.dto),
-      );
+    const { email, confirmationCode, userId }: CreateUserOutputDTO =
+      await this.commandBus.execute<
+        CommonCreateUserCommand,
+        CreateUserOutputDTO
+      >(new CommonCreateUserCommand(command.dto));
 
     this.emailService.registration(email, confirmationCode);
 

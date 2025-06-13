@@ -1,9 +1,9 @@
 import { IsEmail, Length, Matches, MaxLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { TrimDecorator } from 'apps/gateway/src/common/decorators/trim.decorator';
-import { IsValidUsername } from '../../../../common/decorators/valid.username.decorator';
+import { IsValidUsername } from '../../../../../common/decorators/valid.username.decorator';
 
-export class UserRegistrationDTO {
+export class RegistrationUserInputDTO {
   @ApiProperty({
     example: 'user@example.com',
     description: 'Email пользователя',

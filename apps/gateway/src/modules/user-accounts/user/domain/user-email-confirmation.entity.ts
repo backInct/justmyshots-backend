@@ -1,28 +1,36 @@
-import { IUserEmailConfirmationEntityProps } from '../interfaces/email-confirmation.props';
-import { EmailConfirmationCreateDTO } from '../dto/email-confirmation/email-confirmation.create.dto';
-import { EmailConfirmationUpdateDTO } from '../dto/email-confirmation/email-confirmation.update.dto';
 import { UserEmailConfirmation } from '../../../../../prisma/generated';
+import { EmailConfirmationCreateDomainDTO } from './dto/user-email-confirmation.dto';
+
+interface IUserEmailConfirmationEntityProps {
+  id?: string;
+  verification?: boolean;
+  createdAt?: Date;
+  code: string;
+  expiresAt: Date;
+  userId: string;
+}
 
 export class UserEmailConfirmationEntity {
   public code: string;
   public expiresAt: Date;
-  public verification: boolean;
-  public createdAt?: Date;
-  private id?: string;
-  private userId: string;
+  public verification: boolean = false;
+  public createdAt: Date;
+  public id: string;
+  public userId: string;
 
   private constructor(data: IUserEmailConfirmationEntityProps) {
-    Object.assign(this, data);
+    this.code = data.code;
+    this.expiresAt = data.expiresAt;
+    this.userId = data.userId;
   }
 
   public static buildInstance(
-    dto: EmailConfirmationCreateDTO,
+    dto: EmailConfirmationCreateDomainDTO,
     userId: string,
   ): UserEmailConfirmationEntity {
     return new UserEmailConfirmationEntity({
       code: dto.code,
       expiresAt: dto.expiresAt,
-      verification: dto.verification ?? false,
       userId,
     });
   }
@@ -44,7 +52,6 @@ export class UserEmailConfirmationEntity {
     return {
       code: this.code,
       expiresAt: this.expiresAt,
-      verification: this.verification,
       userId: this.userId,
     };
   }
@@ -52,12 +59,6 @@ export class UserEmailConfirmationEntity {
   public updateCodeAndVerification(code: string, verification: boolean): void {
     this.code = code;
     this.verification = verification;
-  }
-
-  public updateFromDto(dto: EmailConfirmationUpdateDTO): void {
-    this.code = dto.code;
-    this.expiresAt = dto.expiresAt;
-    this.verification = dto.verification;
   }
 
   public getUserId(): string {

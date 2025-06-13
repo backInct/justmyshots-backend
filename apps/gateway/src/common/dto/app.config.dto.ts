@@ -19,11 +19,19 @@ export class AppConfigDTO {
   env: string;
 
   @IsEmail()
-  adminEmail: string;
+  emailUser: string;
 
   @IsString()
   @IsNotEmpty()
-  adminEmailPassword: string;
+  emailPassword: string;
+
+  @IsInt()
+  @Type(() => Number)
+  emailPort: number;
+
+  @IsString()
+  @IsNotEmpty()
+  emailHost: string;
 
   @IsString()
   @IsNotEmpty()

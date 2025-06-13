@@ -15,15 +15,16 @@ const services = [EmailService];
       inject: [AppConfig],
       useFactory: (coreConfig: AppConfig) => ({
         transport: {
-          service: 'yandex',
           secure: true,
           auth: {
-            user: coreConfig.adminEmail,
-            pass: coreConfig.adminEmailPassword,
+            user: coreConfig.emailUser,
+            pass: coreConfig.emailPassword,
           },
+          port: coreConfig.emailPort,
+          host: coreConfig.emailHost,
         },
         defaults: {
-          from: `"Backend" <${coreConfig.adminEmail}>`,
+          from: `"Backend" <${coreConfig.emailUser}>`,
         },
         template: {
           dir: TEMPLATES_DIR,

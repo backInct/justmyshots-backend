@@ -1,6 +1,15 @@
-import { UserCreateDTO } from '../dto/create.user.dto';
 import { Prisma, User } from '../../../../../prisma/generated';
-import { IUserEntityProps } from '../interfaces/user.props';
+import { UserCreateDomainDTO } from './dto/user.dto';
+
+interface IUserEntityProps {
+  email: string;
+  username: string;
+  passwordHash: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  id?: string;
+  deletedAt?: Date | null;
+}
 
 export class UserEntity {
   public email: string;
@@ -15,7 +24,7 @@ export class UserEntity {
     Object.assign(this, data);
   }
 
-  public static createInstance(dto: UserCreateDTO): UserEntity {
+  public static createInstance(dto: UserCreateDomainDTO): UserEntity {
     return new UserEntity({
       email: dto.email,
       username: dto.username,
