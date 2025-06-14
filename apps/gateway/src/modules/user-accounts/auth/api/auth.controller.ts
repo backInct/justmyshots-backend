@@ -16,6 +16,7 @@ import { RegistrationUserOutputDto } from './output-dto/registration-user.output
 import { SETTINGS } from '../../../../common/settings/router.path.settings';
 import { RegistrationConfirmationUserInputDto } from './input-dto/registration-confirmation-user.input-dto';
 import { RegistrationConfirmationUserCommand } from '../application/use-cases/registration-confirmation-user.usecase';
+import { ResendEmailUserInputDTO } from './input-dto/resend-email-user.input-dto';
 
 @ApiTags('Authorization')
 @Controller(SETTINGS.PATH.AUTH)
@@ -66,4 +67,23 @@ export class AuthController {
       new RegistrationConfirmationUserCommand(dto),
     );
   }
+
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(ThrottlerGuard)
+  @Post('resend-email')
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+    description: 'Код подтверждения был отправлен на указанную почту',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Данный email уже был подтвержден',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Данный email отсутствует',
+  })
+  async resendEmailConfirmationCode(
+    @Body() dto: ResendEmailUserInputDTO,
+  ): Promise<void> {}
 }
