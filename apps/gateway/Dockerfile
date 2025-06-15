@@ -26,10 +26,10 @@ RUN yarn install
 # Bundle app source code
 COPY --chown=node . .
 
-RUN yarn run build:${SERVICE}
+RUN yarn run ${SERVICE}:build
 
 # Bind to all network interfaces so that it can be mapped to the host OS
 
 EXPOSE ${PORT}
 
-CMD yarn run 'start:gateway'
+CMD yarn run 'gateway:start'

@@ -26,7 +26,17 @@
       "sourceRoot": "apps/gateway/src",
       "compilerOptions": {
         "tsConfigPath": "apps/gateway/tsconfig.app.json"
-      }
+      },
+      "assets": [
+        {
+          "include": "**/*.hbs",
+          "watchAssets": true
+        },
+        {
+          "include": "**/env/*",
+          "watchAssets": true
+        }
+      ]
     }
   }
 }
