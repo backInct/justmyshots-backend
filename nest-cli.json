@@ -5,7 +5,17 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "webpack": true,
-    "tsConfigPath": "apps/gateway/tsconfig.app.json"
+    "tsConfigPath": "apps/gateway/tsconfig.app.json",
+    "plugins": [
+      {
+        "name": "@nestjs/swagger",
+        "options": {
+          "dtoFileNameSuffix": [".input-dto.ts", ".output-dto.ts"],
+          "classValidatorShim": true,
+          "introspectComments": true
+        }
+      }
+    ]
   },
   "monorepo": true,
   "root": "apps/gateway",
@@ -26,7 +36,17 @@
       "sourceRoot": "apps/gateway/src",
       "compilerOptions": {
         "tsConfigPath": "apps/gateway/tsconfig.app.json"
-      }
+      },
+      "assets": [
+        {
+          "include": "**/*.hbs",
+          "watchAssets": true
+        },
+        {
+          "include": "**/env/*",
+          "watchAssets": true
+        }
+      ]
     }
   }
 }
