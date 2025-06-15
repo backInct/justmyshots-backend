@@ -2,29 +2,26 @@ import { Module } from '@nestjs/common';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { EmailService } from './service/email.service';
-import { CoreModule } from '../../common/modules/core.module';
-import { AppConfig } from '../../common/configs/app.config';
 import { TEMPLATES_DIR } from '../../common/constants/templates.dir';
-
-const services = [EmailService];
+import { EmailConfig } from './email.config';
 
 @Module({
   imports: [
     MailerModule.forRootAsync({
-      imports: [CoreModule],
-      inject: [AppConfig],
-      useFactory: (coreConfig: AppConfig) => ({
+      imports: [EmailModule],
+      inject: [EmailConfig],
+      useFactory: (emailConfig: EmailConfig) => ({
         transport: {
           secure: true,
           auth: {
-            user: coreConfig.emailUser,
-            pass: coreConfig.emailPassword,
+            user: emailConfig.emailUser,
+            pass: emailConfig.emailPassword,
           },
-          port: coreConfig.emailPort,
-          host: coreConfig.emailHost,
+          port: emailConfig.emailPort,
+          host: emailConfig.emailHost,
         },
         defaults: {
-          from: `"Backend" <${coreConfig.emailUser}>`,
+          from: `"Backend" <${emailConfig.emailUser}>`,
         },
         template: {
           dir: TEMPLATES_DIR,
@@ -36,7 +33,7 @@ const services = [EmailService];
       }),
     }),
   ],
-  providers: [...services],
-  exports: [...services],
+  providers: [EmailService, EmailConfig],
+  exports: [EmailService, EmailConfig],
 })
 export class EmailModule {}

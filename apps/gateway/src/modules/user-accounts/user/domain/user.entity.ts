@@ -75,4 +75,8 @@ export class UserEntity {
   public installPassword(hash: string): void {
     this.passwordHash = hash;
   }
+
+  public getPasswordHash(): string {
+    return this.passwordHash;
+  }
 }
