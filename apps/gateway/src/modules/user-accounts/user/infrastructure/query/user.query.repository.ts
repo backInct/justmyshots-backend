@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../../../prisma/service/prisma.service';
-import { RegistrationUserOutputDto } from '../../../auth/api/output-dto/registration-user.output-dto';
+import { RegistrationUserOutputDto } from '../../api/output-dto/registration-user.output-dto';
 
 @Injectable()
 export class UserQueryRepository {
@@ -10,7 +10,7 @@ export class UserQueryRepository {
     email: string,
     username: string,
   ): Promise<{ email: string; username: string } | null> {
-    return await this.prisma.user.findFirst({
+    return this.prisma.user.findFirst({
       where: {
         OR: [{ email }, { username }],
       },

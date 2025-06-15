@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { UserQueryRepository } from '../../../user/infrastructure/query/user.query.repository';
+import { UserQueryRepository } from '../../infrastructure/query/user.query.repository';
 
 export class UserUniqueCommand {
   constructor(

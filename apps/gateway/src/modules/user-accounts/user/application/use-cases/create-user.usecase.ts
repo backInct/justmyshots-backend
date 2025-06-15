@@ -1,9 +1,9 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { BcryptService } from '../service/bcrypt.service';
-import { UserRepository } from '../../../user/infrastructure/user.repository';
-import { UserEntity } from '../../../user/domain/user.entity';
-import { UserEmailConfirmationEntity } from '../../../user/domain/user-email-confirmation.entity';
-import { UserEmailConfirmationRepository } from '../../../user/infrastructure/email-confirmation.repository';
+import { UserRepository } from '../../infrastructure/user.repository';
+import { UserEntity } from '../../domain/user.entity';
+import { UserEmailConfirmationEntity } from '../../domain/user-email-confirmation.entity';
+import { UserEmailConfirmationRepository } from '../../infrastructure/email-confirmation.repository';
 import { CreateUserOutputDTO } from '../../api/output-dto/create-user.output-dto';
 import { randomUUID } from 'node:crypto';
 import { add } from 'date-fns';

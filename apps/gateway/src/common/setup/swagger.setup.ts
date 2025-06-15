@@ -6,8 +6,8 @@ export function swaggerSetup(app: INestApplication): void {
     .setTitle('Just-My-Shots')
     .setDescription('Стажировочный проект')
     .setVersion('1.0')
-    .addTag('just')
     .addBearerAuth()
+    .addCookieAuth('refreshToken')
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);

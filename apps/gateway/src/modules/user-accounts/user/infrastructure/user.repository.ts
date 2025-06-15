@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserEntity } from '../domain/user.entity';
 import { PrismaService } from '../../../prisma/service/prisma.service';
+import { UserId } from '../domain/dto/user.dto';
 
 @Injectable()
 export class UserRepository {
@@ -27,5 +28,40 @@ export class UserRepository {
     });
 
     return updated.id;
+  }
+
+  async findUserByLoginOrEmail(
+    loginOrEmail: string,
+  ): Promise<UserEntity | null> {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        OR: [{ email: loginOrEmail }, { username: loginOrEmail }],
+        deletedAt: null,
+      },
+      //TODO реализовать агрегат рут
+      // include: {
+      //   emailConfirmation: true,
+      // },
+    });
+
+    return user ? UserEntity.fromPrisma(user) : null;
+  }
+
+  async checkUserFoundAndNotDeletedOrNotFoundException(
+    userId: UserId,
+  ): Promise<void> {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        id: userId,
+        deletedAt: null,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('user not found');
+    }
   }
 }

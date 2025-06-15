@@ -1,8 +1,8 @@
 import { RegistrationConfirmationUserInputDto } from '../../api/input-dto/registration-confirmation-user.input-dto';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { UserEmailConfirmationRepository } from '../../../user/infrastructure/email-confirmation.repository';
+import { UserEmailConfirmationRepository } from '../../infrastructure/email-confirmation.repository';
 import { BadRequestException } from '@nestjs/common';
-import { UserEmailConfirmationEntity } from '../../../user/domain/user-email-confirmation.entity';
+import { UserEmailConfirmationEntity } from '../../domain/user-email-confirmation.entity';
 
 export class RegistrationConfirmationUserCommand {
   constructor(public readonly dto: RegistrationConfirmationUserInputDto) {}
