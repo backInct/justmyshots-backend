@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "gateway:build": "yarn gateway:prisma:generate && nest build gateway",
-    "gateway:start": "node dist/apps/gateway/main",
+    "gateway:start": "yarn gateway:prisma:deploy:prod && node dist/apps/gateway/main",
     "gateway:start:dev": "yarn gateway:prisma:generate && yarn gateway:prisma:deploy:dev && cross-env NODE_ENV=development nest start gateway --watch",
     "gateway:start:debug": "cross-env NODE_ENV=development nest start gateway --debug --watch",
     "gateway:prisma:generate": "prisma generate --schema=apps/gateway/prisma/schema.prisma",
@@ -16,6 +16,7 @@
     "gateway:prisma:studio:dev": "yarn gateway:prisma-wrapper:dev \"prisma studio --schema=apps/gateway/prisma/schema.prisma\"",
     "gateway:prisma:format:model": "yarn run prisma format --schema=apps/gateway/prisma/schema.prisma",
     "gateway:prisma-wrapper:dev": "cross-env NODE_ENV=development ts-node apps/gateway/prisma/prisma-wrapper.ts",
+    "gateway:prisma:deploy:prod": "prisma migrate deploy --schema=apps/gateway/prisma/schema.prisma",
     "files:build": "nest build files",
     "files:start": "node dist/apps/files/main",
     "files:start:dev": "nest start files --watch",
