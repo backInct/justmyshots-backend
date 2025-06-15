@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "gateway:build": "nest build gateway",
+    "gateway:build": "yarn gateway:prisma:generate && nest build gateway",
     "gateway:start": "node dist/apps/gateway/main",
     "gateway:start:dev": "yarn gateway:prisma:generate && yarn gateway:prisma:deploy:dev && cross-env NODE_ENV=development nest start gateway --watch",
     "gateway:start:debug": "cross-env NODE_ENV=development nest start gateway --debug --watch",
