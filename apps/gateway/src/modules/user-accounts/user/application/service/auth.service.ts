@@ -12,7 +12,7 @@ import {
 import {
   ACCESS_TOKEN_STRATEGY_INJECT_TOKEN,
   REFRESH_TOKEN_STRATEGY_INJECT_TOKEN,
-} from '../../constants/auth-tokens.inject-constants';
+} from '../../../providers/constants/auth-tokens.inject-constants';
 import { BcryptService } from './bcrypt.service';
 
 @Injectable()

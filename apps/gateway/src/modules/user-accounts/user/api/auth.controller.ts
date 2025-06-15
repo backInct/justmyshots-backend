@@ -9,7 +9,7 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CommandBus } from '@nestjs/cqrs';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { UserRegistrationCommand } from '../application/use-cases/registration-user.usecase';
@@ -26,6 +26,10 @@ import { CreateSessionCommand } from '../../sessions/application/use-cases/creat
 import { LoginUserCommand } from '../application/use-cases/login-user.use-case';
 import { Response } from 'express';
 import { AccessTokenOutputDto } from './output-dto/login-user.output-dto';
+import {
+  ApiBadRequestCustomResponse,
+  ApiUnauthorizedCustomResponse,
+} from '../../../../common/swagger/bad-request.swagger';
 
 @ApiTags('Authorization')
 @Controller(SETTINGS.PATH.AUTH)
@@ -35,6 +39,9 @@ export class AuthController {
     private readonly userQueryRepository: UserQueryRepository,
   ) {}
 
+  /**
+   * Зарегистрировать пользователя
+   */
   @UseGuards(ThrottlerGuard)
   @HttpCode(HttpStatus.OK)
   @Post('registration')
@@ -44,10 +51,7 @@ export class AuthController {
     description: 'Пользователь успешно зарегистрирован',
     type: RegistrationUserOutputDto,
   })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: 'Ошибка валидации: неверные данные',
-  })
+  @ApiBadRequestCustomResponse()
   async registration(
     @Body() dto: RegistrationUserInputDTO,
   ): Promise<RegistrationUserOutputDto> {
@@ -58,6 +62,9 @@ export class AuthController {
     return this.userQueryRepository.findUserById(userId);
   }
 
+  /**
+   * Подтвердить регистрацию
+   */
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(ThrottlerGuard)
   @Post('registration-confirmation')
@@ -65,10 +72,7 @@ export class AuthController {
     status: HttpStatus.NO_CONTENT,
     description: 'Пользователь подтвердил регистрацию',
   })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: 'Ошибка валидации: неверные данные',
-  })
+  @ApiBadRequestCustomResponse()
   async registrationConfirmation(
     @Body() dto: RegistrationConfirmationUserInputDto,
   ): Promise<void> {
@@ -77,9 +81,17 @@ export class AuthController {
     );
   }
 
+  /**
+   * Аутентифицировать пользователя в системе
+   */
   @Post('login')
   @UseGuards(LocalAuthGuard)
   @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({
+    type: AccessTokenOutputDto,
+    description:
+      'Возвращает в body - accessToken: string, в cookie - refreshToken: string',
+  })
   @ApiBody({
     schema: {
       type: 'object',
@@ -89,6 +101,8 @@ export class AuthController {
       },
     },
   })
+  @ApiBadRequestCustomResponse()
+  @ApiUnauthorizedCustomResponse()
   async loginUser(
     @ExtractUserFromRequest() user: UserContextDTO,
     @Res({ passthrough: true }) res: Response,

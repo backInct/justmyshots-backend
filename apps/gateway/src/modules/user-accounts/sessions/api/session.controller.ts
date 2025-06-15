@@ -17,6 +17,11 @@ import { RefreshTokenPayloadDTO } from '../../user/application/dto/tokens.dto';
 import { ExtractUserFromRequest } from '../../decorators/extract-user-from-request.decorator';
 import { DeviceId } from '../domain/dto/session.dto';
 import { RefreshTokenAuthGuard } from '../../user/guards/cookie/refresh-token.guard';
+import {
+  ApiForbiddenCustomResponse,
+  ApiNotFoundCustomResponse,
+  ApiUnauthorizedCustomResponse,
+} from '../../../../common/swagger/bad-request.swagger';
 
 @ApiCookieAuth()
 @Controller('sessions')
@@ -26,8 +31,12 @@ export class SessionController {
     private commandBus: CommandBus,
   ) {}
 
+  /**
+   * Получить все активные сессии
+   */
   @Get('devices')
   @UseGuards(RefreshTokenAuthGuard)
+  @ApiUnauthorizedCustomResponse()
   async getAllActiveUserSessions(
     @ExtractUserFromRequest() refreshTokenPayload: RefreshTokenPayloadDTO,
   ): Promise<SecurityOutputDto[]> {
@@ -36,9 +45,13 @@ export class SessionController {
     );
   }
 
+  /**
+   * Удалить все сессии, кроме текущей
+   */
   @Delete('devices')
   @UseGuards(RefreshTokenAuthGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiUnauthorizedCustomResponse()
   async deleteAllUserSessionsExpectCurrent(
     @ExtractUserFromRequest() refreshTokenPayload: RefreshTokenPayloadDTO,
   ): Promise<void> {
@@ -50,9 +63,15 @@ export class SessionController {
     );
   }
 
+  /**
+   * Удалить сессию по id
+   */
   @Delete('devices/:deviceId')
   @UseGuards(RefreshTokenAuthGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiUnauthorizedCustomResponse()
+  @ApiNotFoundCustomResponse()
+  @ApiForbiddenCustomResponse()
   async deleteUserSessionByDeviceId(
     @Param('deviceId') deviceId: DeviceId,
     @ExtractUserFromRequest() refreshTokenPayload: RefreshTokenPayloadDTO,
