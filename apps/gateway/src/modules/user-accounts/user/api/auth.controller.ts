@@ -9,7 +9,13 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBody, ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiCookieAuth,
+  ApiOkResponse,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CommandBus } from '@nestjs/cqrs';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { UserRegistrationCommand } from '../application/use-cases/registration-user.usecase';
@@ -30,6 +36,9 @@ import {
   ApiBadRequestCustomResponse,
   ApiUnauthorizedCustomResponse,
 } from '../../../../common/swagger/bad-request.swagger';
+import { RefreshTokenAuthGuard } from '../guards/cookie/refresh-token.guard';
+import { RefreshTokenPayloadDTO } from '../application/dto/tokens.dto';
+import { DeleteUserSessionByDeviceIdCommand } from '../../sessions/application/use-cases/delete-user-session-by-device-id.use-case';
 
 @ApiTags('Authorization')
 @Controller(SETTINGS.PATH.AUTH)
@@ -127,5 +136,25 @@ export class AuthController {
     });
 
     return { accessToken: tokens.accessToken };
+  }
+
+  /**
+   * Выход из системы (завершение текущей сессии)
+   */
+  @Post('logout')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(RefreshTokenAuthGuard)
+  @ApiCookieAuth()
+  @ApiUnauthorizedCustomResponse()
+  async logoutUser(
+    @ExtractUserFromRequest() refreshTokenPayload: RefreshTokenPayloadDTO,
+  ): Promise<void> {
+    await this.commandBus.execute(
+      new DeleteUserSessionByDeviceIdCommand({
+        userId: refreshTokenPayload.userId,
+        lastActiveDate: refreshTokenPayload.lastActiveDate,
+        deviceId: refreshTokenPayload.deviceId,
+      }),
+    );
   }
 }
