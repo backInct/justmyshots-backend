@@ -1,7 +1,7 @@
 import {
   ACCESS_TOKEN_STRATEGY_INJECT_TOKEN,
   REFRESH_TOKEN_STRATEGY_INJECT_TOKEN,
-} from '../user/constants/auth-tokens.inject-constants';
+} from './constants/auth-tokens.inject-constants';
 import { Provider } from '@nestjs/common';
 import { UserAccountsConfig } from '../user-accounts.config';
 import { JwtService } from '@nestjs/jwt';

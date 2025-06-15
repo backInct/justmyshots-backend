@@ -8,8 +8,10 @@ config({
 });
 
 const prismaCommand = process.argv[2];
-console.log('###################################');
-console.log('# Start prisma command: ' + prismaCommand);
-console.log('###################################');
+console.log(`
+###################################
+# Start prisma command: ${prismaCommand}
+###################################
+`);
 
 execSync(prismaCommand, { stdio: 'inherit' });

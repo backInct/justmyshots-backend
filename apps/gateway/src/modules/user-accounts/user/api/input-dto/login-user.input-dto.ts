@@ -1,12 +1,11 @@
-import { IsString } from 'class-validator';
+import { IsString, Length } from 'class-validator';
 import { LoginOrEmailValidator } from '../../../decorators/validators/login-or-email.validator';
-import { IsStringWithTrimWithLength } from '../../../../../common/validation/decorators/validators/is-string-with-trim-with-length';
+import { Trim } from '../../../../../common/decorators/trim.decorator';
 import {
   userEmailConstraints,
   userLoginConstraints,
   userPasswordConstraints,
-} from '../../domain/user.entity';
-import { TrimDecorator } from '../../../../../common/decorators/trim.decorator';
+} from '../../domain/constants/user.constants';
 
 export class LoginUserInputDto {
   @LoginOrEmailValidator({
@@ -16,13 +15,12 @@ export class LoginUserInputDto {
     emailMaxLength: userEmailConstraints.maxLength,
     emailMatch: userEmailConstraints.match,
   })
-  @TrimDecorator()
+  @Trim()
   @IsString()
   loginOrEmail: string;
 
-  @IsStringWithTrimWithLength(
-    userPasswordConstraints.minLength,
-    userPasswordConstraints.maxLength,
-  )
+  @IsString()
+  @Trim()
+  @Length(userPasswordConstraints.minLength, userPasswordConstraints.maxLength)
   password: string;
 }

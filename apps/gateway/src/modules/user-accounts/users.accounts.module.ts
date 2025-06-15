@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './user/api/auth.controller';
-import { UserController } from './user/api/user.controller';
 import { CqrsModule } from '@nestjs/cqrs';
 import { UserQueryRepository } from './user/infrastructure/query/user.query.repository';
 import { UserRepository } from './user/infrastructure/user.repository';
@@ -50,7 +49,7 @@ const strategies = [LocalStrategy, AccessTokenStrategy, RefreshTokenStrategy];
 
 @Module({
   imports: [CqrsModule, EmailModule, PrismaModule],
-  controllers: [AuthController, UserController, SessionController],
+  controllers: [AuthController, SessionController],
   providers: [
     ...repositories,
     ...services,

@@ -10,7 +10,7 @@ async function bootstrap(): Promise<void> {
   fullConfigApp(app, coreConfig);
 
   await app.listen(coreConfig.port, () => {
-    console.log('Сервер запущен на порту: ' + coreConfig.port);
+    console.log('Сервер gateway запущен на порту: ' + coreConfig.port);
     console.log('NODE_ENV:', coreConfig.env);
   });
 }
