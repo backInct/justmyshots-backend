@@ -4,6 +4,9 @@ import { plainToInstance } from 'class-transformer';
 import { validateSync, ValidationError } from 'class-validator';
 import { AppConfigDTO } from '../dto/app.config.dto';
 
+/**
+ * @deprecated
+ */
 @Injectable()
 export class AppConfig {
   public port: number;
